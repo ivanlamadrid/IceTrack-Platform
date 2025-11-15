@@ -1,4 +1,9 @@
 using System.Text.Json.Serialization;
+using IceTrackPlatform.API.Dashboard.Application.Internal.CommandServices;
+using IceTrackPlatform.API.Dashboard.Application.Internal.QueryServices;
+using IceTrackPlatform.API.Dashboard.Domain.Repositories;
+using IceTrackPlatform.API.Dashboard.Domain.Services;
+using IceTrackPlatform.API.Dashboard.Infrastructure.Persistence.EFC.Repositories;
 using IceTrackPlatform.API.Reporting.Application.Internal.CommandServices;
 using IceTrackPlatform.API.Reporting.Application.Internal.QueryServices;
 using IceTrackPlatform.API.Reporting.Domain.Repositories;
@@ -63,10 +68,15 @@ else if (builder.Environment.IsProduction())
 // Shared Bounded Context Injections 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// News Bounded Context Injections
+// Reporting Bounded Context Injections
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportQueryServices, ReportQueryService>();
 builder.Services.AddScoped<IReportCommandService, ReportCommandService>();
+
+// Dashboard Bounded Context Injections
+builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
+builder.Services.AddScoped<IDashboardQueryService, DashboardQueryService>();
+builder.Services.AddScoped<IDashboardCommandService, DashboardCommandService>();
 
 var app = builder.Build();
 

@@ -1,3 +1,4 @@
+using IceTrackPlatform.API.Dashboard.Domain.Model.Aggregates;
 using IceTrackPlatform.API.Reporting.Domain.Model.Aggregates;
 using IceTrackPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
@@ -47,15 +48,23 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         // IAM Context
         // Apply IAM configuration when available
         // builder.ApplyIAMConfiguration();
-        
-        // Create all entities configurations
-        
+
+        // Reporting Context
         builder.Entity<Report>().HasKey(r => r.Id);
         builder.Entity<Report>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Report>().Property(r => r.TenantId).IsRequired();
         builder.Entity<Report>().Property(r => r.EquipmentId).IsRequired();
         builder.Entity<Report>().Property(r => r.Status).HasConversion<string>().IsRequired();
-        
+
+        // Dashboard Context
+        builder.Entity<Dashboard>().HasKey(d => d.Id);
+        builder.Entity<Dashboard>().Property(d => d.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Dashboard>().Property(d => d.UserId).IsRequired();
+        builder.Entity<Dashboard>().Property(d => d.Name).IsRequired();
+        builder.Entity<Dashboard>().Property(d => d.Type).HasConversion<string>().IsRequired();
+        builder.Entity<Dashboard>().Property(d => d.Description).IsRequired();
+        builder.Entity<Dashboard>().Property(d => d.IsActive).IsRequired();
+
         // General Naming Convention for the database objects
         builder.UseSnakeCaseNamingConvention();
     }
